@@ -97,12 +97,14 @@ Random Forest позволяет оценить вклад каждого при
 
 
 Для оценки качества модели использовалась ROC-кривая и метрика ROC AUC. Высокое значение AUC (≈0.98) указывает на отличную способность модели разделять классы спама и легитимных писем.
-<img width="181" height="80" alt="{EAE4A70E-2663-41C8-BF42-10E619D836F4}" src="https://github.com/user-attachments/assets/f77044a8-0c80-4616-bd0e-d0c9c2056a13" />
+
+<img width="600" height="572" alt="{D69CD491-4501-4480-A104-FB59A8F69E88}" src="https://github.com/user-attachments/assets/99dc90e2-25ae-4e8d-a1db-ca68f091ae1b" />
 X (False Positive Rate) — сколько НЕ-спама ошибочно помечено как спам
 Y (True Positive Rate) — сколько спама модель поймала правильно
 
 Для оценки качества модели использовалась ROC-кривая и метрика ROC AUC. Высокое значение AUC (≈0.98) указывает на отличную способность модели разделять классы спама и легитимных писем.
-<img width="600" height="572" alt="{D69CD491-4501-4480-A104-FB59A8F69E88}" src="https://github.com/user-attachments/assets/99dc90e2-25ae-4e8d-a1db-ca68f091ae1b" />
+
+<img width="1920" height="1016" alt="{BAF2D982-C57C-48AA-9E25-F7BDF1918F46}" src="https://github.com/user-attachments/assets/13bb7a27-6469-4948-9f0d-9ff152b9762a" />
 ось X — признаки (слова, символы, заглавные буквы)
 ось Y — важность признака (чем выше — тем сильнее влияние)
 берём только топ-15, чтобы не было каши
@@ -110,5 +112,5 @@ Y (True Positive Rate) — сколько спама модель поймала
 
 Для детального анализа качества модели использовалась матрица ошибок (Confusion Matrix), позволяющая оценить количество ложных срабатываний и пропущенного спама.
 Модель демонстрирует низкое количество ложных блокировок (False Positive), что особенно важно для почтовых систем, где потеря легитимных сообщений критична.
-<img width="1920" height="1016" alt="{BAF2D982-C57C-48AA-9E25-F7BDF1918F46}" src="https://github.com/user-attachments/assets/13bb7a27-6469-4948-9f0d-9ff152b9762a" />
 
+<img width="181" height="80" alt="{EAE4A70E-2663-41C8-BF42-10E619D836F4}" src="https://github.com/user-attachments/assets/f77044a8-0c80-4616-bd0e-d0c9c2056a13" />
