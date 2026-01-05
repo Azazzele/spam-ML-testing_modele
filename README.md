@@ -4,6 +4,10 @@
 Requirements
 Python 3.x
 
+
+<img width="600" height="572" alt="{D69CD491-4501-4480-A104-FB59A8F69E88}" src="https://github.com/user-attachments/assets/99dc90e2-25ae-4e8d-a1db-ca68f091ae1b" />
+
+
 pandas
 
 scikit-learn
