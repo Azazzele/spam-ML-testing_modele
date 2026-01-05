@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.model_selection import GridSearchCV
-
+from sklearn.metrics import roc_auc_score, roc_curve
 
 # --- 1. Указываем URL датасета ---
 URL = 'https://archive.ics.uci.edu/ml/machine-learning-databases/spambase/spambase.data'
@@ -41,31 +41,46 @@ headers = [
 df.columns = headers
 print(df.head())
 
-# Feature matrix and target vector
+
 X = df.drop('spam', axis=1)
 y = df['spam']
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-grid_search = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=5, n_jobs=-1)
+rf = RandomForestClassifier(random_state=42, class_weight='balanced')
+grid_search = GridSearchCV(rf, param_grid, cv=5, scoring='f1', n_jobs=1)
 grid_search.fit(X_train, y_train)
 print("Лучшие параметры:", grid_search.best_params_)
 
 model = grid_search.best_estimator_
 
-best_model = grid_search.best_estimator_
 y_pred = model.predict(X_test)
+y_proba = model.predict_proba(X_test)[:, 1]
+roc_auc = roc_auc_score(y_test, y_proba)
 
-cm = confusion_matrix(y_test, y_pred)
+print("ROC AUC:", roc_auc)
+
+fpr, tpr, _ = roc_curve(y_test, y_proba)
 
 plt.figure(figsize=(6,5))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Not Spam', 'Spam'], yticklabels=['Not Spam', 'Spam'])
-plt.xlabel('Predicted Class')
-plt.ylabel('True Class')
-plt.title('Confusion Matrix')
+plt.plot(fpr, tpr, label=f'ROC AUC = {roc_auc:.3f}')
+plt.plot([0,1], [0,1], linestyle='--')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve')
+plt.legend()
 plt.show()
-
 
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+
+importances = model.feature_importances_
+feat_imp = pd.Series(importances, index=X.columns)\
+              .sort_values(ascending=False)
+
+plt.figure(figsize=(10,5))
+feat_imp.head(15).plot(kind='bar')
+plt.title('Top 15 Most Important Features')
+plt.ylabel('Importance')
+plt.show()
